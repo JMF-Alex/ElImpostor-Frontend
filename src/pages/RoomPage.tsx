@@ -23,8 +23,8 @@ export interface Room {
 }
 
 const socket: Socket = io(import.meta.env.VITE_API_URL || "http://localhost:3001", {
-  transports: ['websocket'],
-  upgrade: false
+  transports: ['polling', 'websocket'],
+  withCredentials: true
 });
 
 const RoomPage: React.FC = () => {
