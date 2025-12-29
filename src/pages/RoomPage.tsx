@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
-import { Share2, Play, Loader2, CornerDownLeft } from 'lucide-react';
+import { Share2, Play, Loader2, CornerDownLeft, Star, UserMinus } from 'lucide-react';
 import RoleReveal from '../components/RoleReveal';
 
 export interface Player {
@@ -19,6 +19,8 @@ export interface Room {
   secretWord: string | null;
   category: string | null;
   impostorId: string | null;
+  leaderId: string | null;
+  votes: Record<string, string>;
   scores: Record<string, number>;
 }
 
@@ -48,6 +50,11 @@ const RoomPage: React.FC = () => {
       setGameResult(result);
     });
 
+    socket.on('kicked', () => {
+      alert('Has sido expulsado de la sala.');
+      navigate('/');
+    });
+
     return () => {
       if (room?.id) {
         socket.emit('leave_room', room.id);
@@ -55,6 +62,7 @@ const RoomPage: React.FC = () => {
       socket.off('room_update');
       socket.off('game_started');
       socket.off('game_ended');
+      socket.off('kicked');
     };
   }, [room?.id]);
 
@@ -69,6 +77,12 @@ const RoomPage: React.FC = () => {
   const handleStartGame = () => {
     if (room && roomId) {
       socket.emit('start_game', roomId);
+    }
+  };
+
+  const handleKick = (targetId: string) => {
+    if (room && roomId) {
+      socket.emit('kick_player', { roomId, targetId });
     }
   };
 
@@ -174,15 +188,34 @@ const RoomPage: React.FC = () => {
                         {p.name[0].toUpperCase()}
                       </div>
                       <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-4 border-black rounded-full" />
+                      {room.leaderId === p.id && (
+                        <div className="absolute -top-1 -left-1 w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center border-2 border-black rotate-[-15deg] shadow-lg">
+                          <Star size={10} fill="black" strokeWidth={3} />
+                        </div>
+                      )}
                     </div>
                     <div className="flex flex-col">
-                      <span className="font-bold tracking-tight text-white">{p.name}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold tracking-tight text-white">{p.name}</span>
+                        {room.leaderId === p.id && <span className="text-[8px] font-black text-yellow-500 uppercase tracking-widest">Líder</span>}
+                      </div>
                       <span className="text-[9px] font-black text-text-secondary tracking-widest uppercase">Score: {(room.scores && room.scores[p.id]) || 0}</span>
                     </div>
                   </div>
-                  {p.id === socket.id && (
-                    <span className="text-[9px] font-black uppercase tracking-widest bg-accent-blue/20 text-accent-blue px-3 py-1.5 rounded-full border border-accent-blue/30 realistic-shadow">TÚ</span>
-                  )}
+                  <div className="flex items-center gap-3">
+                    {room.leaderId === socket.id && p.id !== socket.id && (
+                      <button 
+                        onClick={() => handleKick(p.id)}
+                        className="p-2 rounded-xl bg-accent-red/10 border border-accent-red/20 text-accent-red hover:bg-accent-red/20 transition-all opacity-0 group-hover:opacity-100"
+                        title="Expulsar"
+                      >
+                        <UserMinus size={16} />
+                      </button>
+                    )}
+                    {p.id === socket.id && (
+                      <span className="text-[9px] font-black uppercase tracking-widest bg-accent-blue/20 text-accent-blue px-3 py-1.5 rounded-full border border-accent-blue/30 realistic-shadow">TÚ</span>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

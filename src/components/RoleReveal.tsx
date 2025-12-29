@@ -157,15 +157,18 @@ const RoleReveal: React.FC<RoleRevealProps> = ({ room, socket, result }) => {
               </div>
               
               <div className="flex flex-col md:flex-row gap-6 lg:gap-12 items-center justify-center mb-4 relative z-10 px-2">
-                <div className="text-center md:text-left px-8 py-6 bg-black/40 border border-white/10 rounded-[32px] w-full md:w-auto realistic-shadow backdrop-blur-md transition-transform hover:scale-105 duration-500">
-                  <span className="text-[9px] font-black text-text-secondary uppercase tracking-[0.2em] block mb-2 opacity-70">CATEGORÍA</span>
-                  <span className="text-2xl md:text-3xl font-black text-white tracking-tight uppercase animate-text-reveal">{room.category}</span>
-                </div>
-                
-                <div className="hidden md:block w-[2px] h-12 bg-white/10 rotate-12" />
+                {isImpostor && (
+                  <>
+                    <div className="text-center md:text-left px-8 py-6 bg-black/40 border border-white/10 rounded-[32px] w-full md:w-auto realistic-shadow backdrop-blur-md transition-transform hover:scale-105 duration-500">
+                      <span className="text-[9px] font-black text-text-secondary uppercase tracking-[0.2em] block mb-2 opacity-70">CATEGORÍA</span>
+                      <span className="text-2xl md:text-3xl font-black text-white tracking-tight uppercase animate-text-reveal">{room.category}</span>
+                    </div>
+                    <div className="hidden md:block w-[2px] h-12 bg-white/10 rotate-12" />
+                  </>
+                )}
 
                 <div className="text-center md:text-left px-12 py-8 bg-black/40 border border-white/10 rounded-[32px] w-full md:w-auto realistic-shadow backdrop-blur-md transition-transform hover:scale-105 duration-500 ring-1 ring-white/5">
-                  <span className="text-[9px] font-black text-text-secondary uppercase tracking-[0.2em] block mb-2 opacity-70">IDENTIDAD</span>
+                  <span className="text-[9px] font-black text-text-secondary uppercase tracking-[0.2em] block mb-2 opacity-70">{isImpostor ? 'IDENTIDAD' : 'PALABRA'}</span>
                   <h3 
                     className={`text-5xl md:text-7xl font-black tracking-tighter uppercase animate-text-reveal`}
                     style={{

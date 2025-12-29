@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Socket } from 'socket.io-client';
 import { Room } from '../pages/RoomPage';
-import { Target, Loader2 } from 'lucide-react';
+import { Target, Loader2, Check } from 'lucide-react';
 
 interface VotingProps {
   room: Room;
@@ -25,6 +25,7 @@ const Voting: React.FC<VotingProps> = ({ room, socket }) => {
   }, [socket]);
 
   const castVote = (targetId: string) => {
+    if (targetId === socket.id) return;
     const newVote = votedFor === targetId ? null : targetId;
     setVotedFor(newVote);
     socket.emit('cast_vote', { roomId: room.id, targetId: newVote });
@@ -50,15 +51,22 @@ const Voting: React.FC<VotingProps> = ({ room, socket }) => {
           return (
             <button
               key={p.id}
+              disabled={isMe}
               className={`group flex flex-col items-center justify-center p-8 rounded-3xl border-2 transition-all duration-500 relative overflow-hidden
                 ${isSelected 
                   ? 'bg-accent-red/20 border-accent-red glow-red transform scale-105 z-10' 
                   : 'bg-white/5 border-white/5 hover:border-white/10 hover:bg-white/[0.07]'
                 }
                 ${votedFor && !isSelected ? 'opacity-30 blur-[1px] hover:opacity-50 hover:blur-0' : 'opacity-100'}
+                ${isMe ? 'cursor-not-allowed border-dashed' : 'cursor-pointer'}
               `}
               onClick={() => castVote(p.id)}
             >
+              {room.votes && room.votes[p.id] !== undefined && (
+                <div className="absolute top-4 left-4 text-green-500 animate-in zoom-in duration-300">
+                  <Check size={18} strokeWidth={4} />
+                </div>
+              )}
               <div className="absolute top-4 right-4 text-accent-red transition-all duration-500" style={{ opacity: isSelected ? 1 : 0, transform: isSelected ? 'scale(1)' : 'scale(0.5)' }}>
                   <Target size={20} className="animate-pulse" />
               </div>
