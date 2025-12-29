@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Socket } from 'socket.io-client';
 import { Room } from '../pages/RoomPage';
 import Voting from './Voting';
-import { Eye, EyeOff, AlertTriangle, CheckCircle2, RotateCcw } from 'lucide-react';
+import { Eye, EyeOff, AlertTriangle, CheckCircle2, RotateCcw, Mic } from 'lucide-react';
 
 interface RoleRevealProps {
   room: Room;
@@ -182,6 +182,17 @@ const RoleReveal: React.FC<RoleRevealProps> = ({ room, socket, result }) => {
                   </h3>
                 </div>
               </div>
+
+              {room.startingPlayerId && (
+                <div className="mt-8 flex flex-col items-center animate-in fade-in slide-in-from-top-4 duration-700 delay-500">
+                  <div className="flex items-center gap-3 px-6 py-3 bg-white/5 border border-white/10 rounded-2xl realistic-shadow">
+                    <Mic size={16} className="text-accent-blue animate-pulse" />
+                    <span className="text-[10px] font-black tracking-[0.2em] text-text-secondary uppercase">
+                      EMPIEZA HABLANDO: <span className="text-white">{room.players.find(p => p.id === room.startingPlayerId)?.name}</span>
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">

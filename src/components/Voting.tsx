@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Socket } from 'socket.io-client';
 import { Room } from '../pages/RoomPage';
-import { Target, Loader2, Check } from 'lucide-react';
+import { Target, Loader2, Check, Mic } from 'lucide-react';
 
 interface VotingProps {
   room: Room;
@@ -79,6 +79,12 @@ const Voting: React.FC<VotingProps> = ({ room, socket }) => {
               
               <span className="font-bold tracking-tight text-lg mb-1">{p.name}</span>
               {isMe && <span className="text-[9px] font-black uppercase tracking-tighter opacity-50">Tu mismo</span>}
+              {room.startingPlayerId === p.id && (
+                <div className="mt-2 flex items-center gap-1.5 px-3 py-1 bg-accent-blue/10 border border-accent-blue/20 rounded-full">
+                  <Mic size={10} className="text-accent-blue" />
+                  <span className="text-[8px] font-black text-accent-blue uppercase tracking-widest whitespace-nowrap">Empieza hablando</span>
+                </div>
+              )}
             </button>
           );
         })}

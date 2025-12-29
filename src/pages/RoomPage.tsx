@@ -19,6 +19,7 @@ export interface Room {
   secretWord: string | null;
   category: string | null;
   impostorId: string | null;
+  startingPlayerId: string | null;
   leaderId: string | null;
   votes: Record<string, string>;
   scores: Record<string, number>;
