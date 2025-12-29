@@ -22,7 +22,10 @@ export interface Room {
   scores: Record<string, number>;
 }
 
-const socket: Socket = io(import.meta.env.VITE_API_URL || "http://localhost:3001");
+const socket: Socket = io(import.meta.env.VITE_API_URL || "http://localhost:3001", {
+  transports: ['websocket'],
+  upgrade: false
+});
 
 const RoomPage: React.FC = () => {
   const { roomId } = useParams<{ roomId: string }>();
