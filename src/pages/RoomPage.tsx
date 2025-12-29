@@ -35,10 +35,17 @@ const RoomPage: React.FC = () => {
   const [room, setRoom] = useState<Room | null>(null);
   const [gameResult, setGameResult] = useState<{ winner: string; word: string; impostor: string; ejectedName?: string } | null>(null);
   const [showCopyFeedback, setShowCopyFeedback] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     socket.on('room_update', (updatedRoom: Room) => {
       setRoom(updatedRoom);
+      setError(null);
+    });
+
+    socket.on('join_error', ({ message }) => {
+      setError(message === 'NAME_ALREADY_EXISTS' ? 'Este nombre ya está en uso en esta sala.' : 'Error al unirse.');
+      setIsJoined(false);
     });
 
     socket.on('game_started', (startedRoom: Room) => {
@@ -60,6 +67,7 @@ const RoomPage: React.FC = () => {
         socket.emit('leave_room', room.id);
       }
       socket.off('room_update');
+      socket.off('join_error');
       socket.off('game_started');
       socket.off('game_ended');
       socket.off('kicked');
@@ -105,12 +113,20 @@ const RoomPage: React.FC = () => {
               <input 
                 autoFocus
                 type="text" 
-                className="input-premium" 
+                className={`input-premium ${error ? 'border-accent-red ring-accent-red/20' : ''}`} 
                 placeholder="Nombre clave..." 
                 value={playerName}
-                onChange={(e) => setPlayerName(e.target.value)}
+                onChange={(e) => {
+                  setPlayerName(e.target.value);
+                  setError(null);
+                }}
                 maxLength={15}
               />
+              {error && (
+                <p className="text-accent-red text-[10px] font-bold mt-2 uppercase tracking-wider animate-in fade-in slide-in-from-top-1">
+                  {error}
+                </p>
+              )}
             </div>
             <button type="submit" className="btn-premium w-full flex items-center justify-center gap-2">
               CONECTAR AL SERVIDOR <Play size={18} fill="currentColor" />
