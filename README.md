@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://developer.mozilla.org/en-US/docs/Web/HTML"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5"></a> <a href="https://developer.mozilla.org/en-US/docs/Web/CSS"><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css&logoColor=white" alt="CSS3"></a> <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"></a> <a href="#"><img src="https://img.shields.io/badge/TSX-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TSX"></a> <a href="#"><img src="https://img.shields.io/badge/Size-<1MB-green?style=for-the-badge" alt="Size"></a>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/HTML"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5"></a> <a href="https://developer.mozilla.org/en-US/docs/Web/CSS"><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css&logoColor=white" alt="CSS3"></a> <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"></a> <a href="https://reactjs.org/"><img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React"></a> <a href="#"><img src="https://img.shields.io/badge/TSX-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TSX"></a> <a href="#"><img src="https://img.shields.io/badge/Size-<1MB-green?style=for-the-badge" alt="Size"></a>
 </p>
 
 ## Table of Contents
@@ -31,6 +31,7 @@ This project was developed using:
 - **HTML5** for structure and markup
 - **CSS3** for design and responsive layout
 - **TypeScript** for type-safe development
+- **React** for user interface components
 - **TSX** for TypeScript React components
 
 Repository: [github.com/JMF-Alex/ElImpostor-Frontend](https://github.com/JMF-Alex/ElImpostor-Frontend)
