@@ -156,31 +156,45 @@ const RoleReveal: React.FC<RoleRevealProps> = ({ room, socket, result }) => {
                 <div className="h-px w-8 bg-white/20" />
               </div>
               
-              <div className="flex flex-col md:flex-row gap-6 lg:gap-12 items-center justify-center mb-4 relative z-10 px-2">
-                  <>
+              <div className="flex flex-col items-center gap-8 mb-4 relative z-10 px-2">
+                <div className="flex flex-col md:flex-row gap-6 lg:gap-12 items-center justify-center w-full">
                     <div className="text-center md:text-left px-8 py-6 bg-black/40 border border-white/10 rounded-[32px] w-full md:w-auto realistic-shadow backdrop-blur-md transition-transform hover:scale-105 duration-500">
-                      <span className="text-[9px] font-black text-text-secondary uppercase tracking-[0.2em] block mb-2 opacity-70">{isImpostor ? 'CATEGORÍA' : 'ROL'}</span>
+                      <span className="text-[9px] font-black text-text-secondary uppercase tracking-[0.2em] block mb-2 opacity-70">
+                        {isImpostor ? 'CATEGORÍA' : 'ROL'}
+                      </span>
                       <span className={`text-2xl md:text-3xl font-black tracking-tight uppercase animate-text-reveal ${isImpostor ? 'text-white' : 'text-accent-blue'}`}>
                         {isImpostor ? room.category : 'AMIGO'}
                       </span>
                     </div>
-                    <div className="hidden md:block w-[2px] h-12 bg-white/10 rotate-12" />
-                  </>
 
-                <div className="text-center md:text-left px-12 py-8 bg-black/40 border border-white/10 rounded-[32px] w-full md:w-auto realistic-shadow backdrop-blur-md transition-transform hover:scale-105 duration-500 ring-1 ring-white/5">
-                  <span className="text-[9px] font-black text-text-secondary uppercase tracking-[0.2em] block mb-2 opacity-70">{isImpostor ? 'IDENTIDAD' : 'PALABRA'}</span>
-                  <h3 
-                    className={`text-5xl md:text-7xl font-black tracking-tighter uppercase animate-text-reveal`}
-                    style={{
-                      textShadow: isImpostor 
-                        ? '0 0 25px rgba(255,62,62,0.6), 0 0 50px rgba(255,62,62,0.3)' 
-                        : '0 0 25px rgba(62,146,255,0.6), 0 0 50px rgba(62,146,255,0.3)',
-                      color: isImpostor ? '#ff3e3e' : '#3e92ff'
-                    }}
-                  >
-                    {isImpostor ? 'IMPOSTOR' : room.secretWord}
-                  </h3>
+                    <div className="hidden md:block w-[2px] h-12 bg-white/10 rotate-12" />
+
+                  <div className="text-center md:text-left px-12 py-8 bg-black/40 border border-white/10 rounded-[32px] w-full md:w-auto realistic-shadow backdrop-blur-md transition-transform hover:scale-105 duration-500 ring-1 ring-white/5">
+                    <span className="text-[9px] font-black text-text-secondary uppercase tracking-[0.2em] block mb-2 opacity-70">{isImpostor ? 'IDENTIDAD' : 'PALABRA'}</span>
+                    <h3 
+                      className={`text-5xl md:text-7xl font-black tracking-tighter uppercase animate-text-reveal`}
+                      style={{
+                        textShadow: isImpostor 
+                          ? '0 0 25px rgba(255,62,62,0.6), 0 0 50px rgba(255,62,62,0.3)' 
+                          : '0 0 25px rgba(62,146,255,0.6), 0 0 50px rgba(62,146,255,0.3)',
+                        color: isImpostor ? '#ff3e3e' : '#3e92ff'
+                      }}
+                    >
+                      {isImpostor ? 'IMPOSTOR' : room.secretWord}
+                    </h3>
+                  </div>
                 </div>
+
+                {isImpostor && room.impostorHint && (
+                  <div className="w-full max-w-xl animate-in slide-in-from-top-4 duration-1000 delay-500">
+                    <div className="text-center px-8 py-6 bg-accent-red/10 border border-accent-red/20 rounded-[32px] realistic-shadow backdrop-blur-md border-t-4 border-t-accent-red">
+                      <span className="text-[9px] font-black text-accent-red uppercase tracking-[0.4em] block mb-2 opacity-70">PISTA CONCRETA</span>
+                      <p className="text-xl md:text-2xl font-black text-white uppercase italic tracking-tight">
+                        "{room.impostorHint}"
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {room.startingPlayerId && (
